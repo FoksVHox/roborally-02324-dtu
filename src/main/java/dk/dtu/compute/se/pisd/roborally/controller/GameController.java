@@ -50,6 +50,7 @@ public class GameController {
         space.setPlayer(board.getCurrentPlayer());
         board.incrementMoves();
 
+        board.setCurrentPlayer(board.getNextPlayer());
     }
 
     // XXX V2

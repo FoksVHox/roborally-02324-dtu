@@ -121,6 +121,19 @@ public class Board extends Subject {
         }
     }
 
+    /**
+     * Return the next player. If the current player is the last player in the queue, we should take the first "player again
+     * @return Player
+     */
+    public Player getNextPlayer() {
+        int currentIndex = this.getPlayerNumber(this.getCurrentPlayer());
+        int totalPlayers = this.getPlayersNumber();
+        int nextIndex = (currentIndex + 1) % totalPlayers;
+        return this.getPlayer(nextIndex);
+    }
+
+
+
     public Player getCurrentPlayer() {
         return current;
     }
