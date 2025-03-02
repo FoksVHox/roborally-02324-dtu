@@ -22,9 +22,14 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.roborally.controller.AppController;
+import javafx.scene.control.ChoiceDialog;
 import javafx.scene.control.Menu;
 import javafx.scene.control.MenuBar;
 import javafx.scene.control.MenuItem;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * ...
@@ -37,6 +42,8 @@ public class RoboRallyMenuBar extends MenuBar {
     private AppController appController;
 
     private Menu controlMenu;
+
+    private MenuItem selectBoard;
 
     private MenuItem saveGame;
 
@@ -74,10 +81,15 @@ public class RoboRallyMenuBar extends MenuBar {
         exitApp.setOnAction( e -> this.appController.exit());
         controlMenu.getItems().add(exitApp);
 
+        selectBoard = new MenuItem("Select Board");
+        selectBoard.setOnAction(e -> showBoardSelectionDialog());
+        controlMenu.getItems().add(selectBoard);
+
         controlMenu.setOnShowing(e -> update());
         controlMenu.setOnShown(e -> this.updateBounds());
         update();
     }
+
 
     public void update() {
         if (appController.isGameRunning()) {
@@ -91,6 +103,21 @@ public class RoboRallyMenuBar extends MenuBar {
             saveGame.setVisible(false);
             loadGame.setVisible(true);
         }
+    }
+
+    private void showBoardSelectionDialog() {
+        List<String> choices = new ArrayList<>();
+        choices.add("basic");
+        choices.add("advanced");
+
+        ChoiceDialog<String> dialog = new ChoiceDialog<>("basic", choices);
+        dialog.setTitle("Board name");
+        dialog.setHeaderText("Select a board");
+        dialog.setContentText("Board:");
+
+        Optional<String> result = dialog.showAndWait();
+        //To be implemented:
+        result.ifPresent(board -> appController.setBoard(board)); // Call a method to set the selected board
     }
 
 }
