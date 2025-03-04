@@ -49,10 +49,9 @@ public class BoardFactory {
         System.out.println("Creating board " + name);
         Board board;
         if (Objects.equals(name, "advanced")) {
-                board = new Board(15,8, "<advanced>");
-            }
-        else {
-            board = new Board(8,8, "basic");
+                board = createAdvancedBoard();
+        } else {
+            board = createBasicBoard();
         }
         System.out.println(board.width);
         System.out.println(board.height);
@@ -95,4 +94,11 @@ public class BoardFactory {
         return board;
     }
 
+    private Board createAdvancedBoard() {
+        return new Board(15,8, "<advanced>");
+    }
+
+    private Board createBasicBoard() {
+        return new Board(8,8, "basic");
+    }
 }
