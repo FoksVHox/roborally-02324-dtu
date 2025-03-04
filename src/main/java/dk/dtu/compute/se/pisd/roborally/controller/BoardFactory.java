@@ -4,6 +4,8 @@ import dk.dtu.compute.se.pisd.roborally.model.Board;
 import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
 
+import java.util.Objects;
+
 /**
  * A factory for creating boards. The factory itself is implemented as a singleton.
  *
@@ -45,10 +47,11 @@ public class BoardFactory {
      */
     public Board createBoard(String name) {
         Board board;
-        if (name == null) {
-            board = new Board(8,8, "<none>");
-        } else {
-            board = new Board(8,8, name);
+        if (Objects.equals(name, "advanced")) {
+                board = new Board(15,8, "<advanced>");
+            }
+        else {
+            board = new Board(8,8, "basic");
         }
 
         // add some walls, actions and checkpoints to some spaces
@@ -79,6 +82,11 @@ public class BoardFactory {
         space = board.getSpace(6,5);
         action  = new ConveyorBelt();
         action.setHeading(Heading.WEST);
+        space.getActions().add(action);
+
+        //Walls
+        space = board.getSpace(7,5);
+        //action  = new ;
         space.getActions().add(action);
 
         return board;

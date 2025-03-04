@@ -27,6 +27,7 @@ import dk.dtu.compute.se.pisd.roborally.model.Space;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Polygon;
+import javafx.scene.shape.Rectangle;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -43,8 +44,10 @@ public class SpaceView extends StackPane implements ViewObserver {
     public final Space space;
 
 
+
     public SpaceView(@NotNull Space space) {
         this.space = space;
+
 
         // XXX the following styling should better be done with styles
         this.setPrefWidth(SPACE_WIDTH);
@@ -85,10 +88,18 @@ public class SpaceView extends StackPane implements ViewObserver {
         }
     }
 
+
+
+
+
     @Override
     public void updateView(Subject subject) {
         if (subject == this.space) {
             this.getChildren().clear();
+
+            if (!space.getWalls().isEmpty()) {
+                Rectangle wall = new Rectangle(30, 30, Color.RED);
+            }
 
             // XXX A3: drawing walls and action on the space (could be done
             //         here); it would be even better if fixed things on
@@ -99,3 +110,4 @@ public class SpaceView extends StackPane implements ViewObserver {
     }
 
 }
+
