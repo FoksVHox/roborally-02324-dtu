@@ -47,8 +47,6 @@ public class RoboRallyMenuBar extends MenuBar {
 
     private MenuItem saveGame;
 
-    private MenuItem newGame;
-
     private MenuItem loadGame;
 
     private MenuItem stopGame;
@@ -61,9 +59,6 @@ public class RoboRallyMenuBar extends MenuBar {
         controlMenu = new Menu("File");
         this.getMenus().add(controlMenu);
 
-        newGame = new MenuItem("New Game");
-        newGame.setOnAction( e -> this.appController.newGame());
-        controlMenu.getItems().add(newGame);
 
         stopGame = new MenuItem("Stop Game");
         stopGame.setOnAction( e -> this.appController.stopGame());
@@ -93,12 +88,12 @@ public class RoboRallyMenuBar extends MenuBar {
 
     public void update() {
         if (appController.isGameRunning()) {
-            newGame.setVisible(false);
+            //newGame.setVisible(false);
             stopGame.setVisible(true);
             saveGame.setVisible(true);
             loadGame.setVisible(false);
         } else {
-            newGame.setVisible(true);
+            //newGame.setVisible(true);
             stopGame.setVisible(false);
             saveGame.setVisible(false);
             loadGame.setVisible(true);
@@ -117,7 +112,7 @@ public class RoboRallyMenuBar extends MenuBar {
 
         Optional<String> result = dialog.showAndWait();
         //To be implemented:
-        result.ifPresent(board -> appController.setBoard(board)); // Call a method to set the selected board
+        result.ifPresent(board -> appController.newGame()); // Call a method to set the selected board
     }
 
 }
