@@ -110,7 +110,8 @@ public class RoboRallyMenuBar extends MenuBar {
 
         Optional<String> result = dialog.showAndWait();
         //To be implemented:
-        result.ifPresent(board -> appController.newGame()); // Call a method to set the selected board
+        System.out.println(result.orElse(""));
+        result.ifPresent(board -> appController.newGame(board)); // Call a method to set the selected board
     }
 
 }

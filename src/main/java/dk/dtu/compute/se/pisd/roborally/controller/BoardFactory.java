@@ -46,6 +46,7 @@ public class BoardFactory {
      * @return the new board corresponding to that name
      */
     public Board createBoard(String name) {
+        System.out.println("Creating board " + name);
         Board board;
         if (Objects.equals(name, "advanced")) {
                 board = new Board(15,8, "<advanced>");
@@ -53,39 +54,41 @@ public class BoardFactory {
         else {
             board = new Board(8,8, "basic");
         }
+        System.out.println(board.width);
+        System.out.println(board.height);
 
         // add some walls, actions and checkpoints to some spaces
-        Space space = board.getSpace(0,0);
+        Space space = board.getSpace(0, 0);
         space.getWalls().add(Heading.SOUTH);
-        ConveyorBelt action  = new ConveyorBelt();
+        ConveyorBelt action = new ConveyorBelt();
         action.setHeading(Heading.WEST);
         space.getActions().add(action);
 
-        space = board.getSpace(1,0);
+        space = board.getSpace(1, 0);
         space.getWalls().add(Heading.NORTH);
-        action  = new ConveyorBelt();
+        action = new ConveyorBelt();
         action.setHeading(Heading.WEST);
         space.getActions().add(action);
 
-        space = board.getSpace(1,1);
+        space = board.getSpace(1, 1);
         space.getWalls().add(Heading.WEST);
-        action  = new ConveyorBelt();
+        action = new ConveyorBelt();
         action.setHeading(Heading.NORTH);
         space.getActions().add(action);
 
-        space = board.getSpace(5,5);
+        space = board.getSpace(5, 5);
         space.getWalls().add(Heading.SOUTH);
-        action  = new ConveyorBelt();
+        action = new ConveyorBelt();
         action.setHeading(Heading.WEST);
         space.getActions().add(action);
 
-        space = board.getSpace(6,5);
-        action  = new ConveyorBelt();
+        space = board.getSpace(6, 5);
+        action = new ConveyorBelt();
         action.setHeading(Heading.WEST);
         space.getActions().add(action);
 
         //Walls
-        space = board.getSpace(7,5);
+        space = board.getSpace(7, 5);
         //action  = new ;
         space.getActions().add(action);
 
