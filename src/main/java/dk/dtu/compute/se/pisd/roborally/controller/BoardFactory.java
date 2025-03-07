@@ -46,50 +46,67 @@ public class BoardFactory {
      * @return the new board corresponding to that name
      */
     public Board createBoard(String name) {
-        System.out.println("Creating board " + name);
         Board board;
         if (Objects.equals(name, "advanced")) {
                 board = createAdvancedBoard();
         } else {
             board = createBasicBoard();
         }
-        System.out.println(board.width);
-        System.out.println(board.height);
 
         // add some walls, actions and checkpoints to some spaces
-        Space space = board.getSpace(0, 0);
+        Space space = board.getSpace(0,0);
         space.getWalls().add(Heading.SOUTH);
-        ConveyorBelt action = new ConveyorBelt();
+        ConveyorBelt action  = new ConveyorBelt();
         action.setHeading(Heading.WEST);
         space.getActions().add(action);
 
-        space = board.getSpace(1, 0);
+        space = board.getSpace(1,0);
         space.getWalls().add(Heading.NORTH);
-        action = new ConveyorBelt();
+        action  = new ConveyorBelt();
         action.setHeading(Heading.WEST);
         space.getActions().add(action);
 
-        space = board.getSpace(1, 1);
+        space = board.getSpace(1,1);
         space.getWalls().add(Heading.WEST);
-        action = new ConveyorBelt();
+        action  = new ConveyorBelt();
         action.setHeading(Heading.NORTH);
         space.getActions().add(action);
 
-        space = board.getSpace(5, 5);
+        space = board.getSpace(5,5);
         space.getWalls().add(Heading.SOUTH);
-        action = new ConveyorBelt();
+        action  = new ConveyorBelt();
         action.setHeading(Heading.WEST);
         space.getActions().add(action);
 
-        space = board.getSpace(6, 5);
-        action = new ConveyorBelt();
+        space = board.getSpace(6,5);
+        action  = new ConveyorBelt();
         action.setHeading(Heading.WEST);
         space.getActions().add(action);
 
-        //Walls
-        space = board.getSpace(7, 5);
-        //action  = new ;
-        space.getActions().add(action);
+        //Checkpoint
+        space = board.getSpace(5, 1);
+        Checkpoint checkpoint1 = new Checkpoint(1);
+        space.getActions().add(checkpoint1);
+
+        space = board.getSpace(7, 3);
+        Checkpoint checkpoint2 = new Checkpoint(2);
+        space.getActions().add(checkpoint2);
+
+        try {
+            space = board.getSpace(11, 7);
+            if (space != null) { // Ensure the space exists before using it
+                Checkpoint checkpoint3 = new Checkpoint(3);
+                space.getActions().add(checkpoint3);
+            } else {
+                System.err.println("Warning: Checkpoint at (11,7) is out of bounds for the current board.");
+            }
+        } catch (Exception e) {
+            System.err.println("Error placing checkpoint at (11,7): " + e.getMessage());
+        }
+
+
+
+
 
         return board;
     }

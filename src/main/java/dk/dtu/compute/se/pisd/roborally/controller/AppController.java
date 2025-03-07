@@ -63,7 +63,6 @@ public class AppController implements Observer {
         Optional<Integer> result = dialog.showAndWait();
 
 
-
         if (result.isPresent()) {
             if (gameController != null) {
                 // The UI should not allow this, but in case this happens anyway.
@@ -165,7 +164,7 @@ public class AppController implements Observer {
         }
 
         // Create a new board with the specified name
-        Board newBoard = new Board(8, 8, board);
+        Board newBoard = new Board(15, 8, board);
 
         // Set up a new game controller
         gameController = new GameController(newBoard);

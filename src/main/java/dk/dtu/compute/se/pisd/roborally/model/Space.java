@@ -22,6 +22,7 @@
 package dk.dtu.compute.se.pisd.roborally.model;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.Checkpoint;
 import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
 
 import java.util.ArrayList;
@@ -109,4 +110,12 @@ public class Space extends Subject {
         notifyChange();
     }
 
+    public Checkpoint getCheckpoint() {
+        for (FieldAction action : actions) {
+            if (action instanceof Checkpoint) {
+                return (Checkpoint) action;
+            }
+        }
+        return null;
+    }
 }

@@ -22,10 +22,17 @@
 package dk.dtu.compute.se.pisd.roborally.view;
 
 import dk.dtu.compute.se.pisd.designpatterns.observer.Subject;
+import dk.dtu.compute.se.pisd.roborally.controller.Checkpoint;
+import dk.dtu.compute.se.pisd.roborally.controller.ConveyorBelt;
+import dk.dtu.compute.se.pisd.roborally.controller.FieldAction;
+import dk.dtu.compute.se.pisd.roborally.model.Heading;
 import dk.dtu.compute.se.pisd.roborally.model.Player;
 import dk.dtu.compute.se.pisd.roborally.model.Space;
+import javafx.geometry.Pos;
+import javafx.scene.control.Label;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.scene.shape.Polygon;
 import javafx.scene.shape.Rectangle;
 import org.jetbrains.annotations.NotNull;
@@ -97,9 +104,59 @@ public class SpaceView extends StackPane implements ViewObserver {
         if (subject == this.space) {
             this.getChildren().clear();
 
-            if (!space.getWalls().isEmpty()) {
-                Rectangle wall = new Rectangle(30, 30, Color.RED);
+            for (FieldAction action : space.getActions()) {
+                if (action instanceof ConveyorBelt conveyorBelt) {
+                    Polygon arrow = new Polygon(-15.0, 8.0, 15.0, 8.0, 0.0, -20.0);
+                    arrow.setFill(Color.LIGHTGRAY);
+                    arrow.setOpacity(1); // Slightly transparent
+
+                    // Rotate based on conveyor direction
+                    switch (conveyorBelt.getHeading()) {
+                        case NORTH -> arrow.setRotate(0);
+                        case EAST -> arrow.setRotate(90);
+                        case SOUTH -> arrow.setRotate(180);
+                        case WEST -> arrow.setRotate(270);
+                    }
+                    this.getChildren().add(arrow);
+                }
             }
+
+            if (space.getWalls().contains(Heading.NORTH)) {
+                Rectangle northWall = new Rectangle(SPACE_WIDTH, 5, Color.RED);
+                StackPane.setAlignment(northWall, Pos.TOP_CENTER);
+                this.getChildren().add(northWall);
+            }
+            if (space.getWalls().contains(Heading.SOUTH)) {
+                Rectangle southWall = new Rectangle(SPACE_WIDTH, 5, Color.RED);
+                StackPane.setAlignment(southWall, Pos.BOTTOM_CENTER);
+                this.getChildren().add(southWall);
+            }
+            if (space.getWalls().contains(Heading.WEST)) {
+                Rectangle westWall = new Rectangle(5, SPACE_HEIGHT, Color.RED);
+                StackPane.setAlignment(westWall, Pos.CENTER_LEFT);
+                this.getChildren().add(westWall);
+            }
+            if (space.getWalls().contains(Heading.EAST)) {
+                Rectangle eastWall = new Rectangle(5, SPACE_HEIGHT, Color.RED);
+                StackPane.setAlignment(eastWall, Pos.CENTER_RIGHT);
+                this.getChildren().add(eastWall);
+            }
+
+            Checkpoint checkpoint = space.getCheckpoint();
+            if (checkpoint != null) {
+                Circle checkpointCircle = new Circle(15, Color.YELLOW); // Yellow circle
+                Label checkpointLabel = new Label(String.valueOf(checkpoint.getNumber())); // Checkpoint number
+                checkpointLabel.setTextFill(Color.BLACK);
+                checkpointLabel.setStyle("-fx-font-weight: bold;");
+
+                StackPane checkpointPane = new StackPane(checkpointCircle, checkpointLabel);
+                this.getChildren().add(checkpointPane);
+            }
+
+
+
+        }
+
 
             // XXX A3: drawing walls and action on the space (could be done
             //         here); it would be even better if fixed things on
@@ -108,6 +165,4 @@ public class SpaceView extends StackPane implements ViewObserver {
             updatePlayer();
         }
     }
-
-}
 

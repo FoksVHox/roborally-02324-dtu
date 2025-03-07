@@ -59,6 +59,9 @@ public class RoboRallyMenuBar extends MenuBar {
         controlMenu = new Menu("File");
         this.getMenus().add(controlMenu);
 
+        selectBoard = new MenuItem("New game");
+        selectBoard.setOnAction(e -> showBoardSelectionDialog());
+        controlMenu.getItems().add(selectBoard);
 
         stopGame = new MenuItem("Stop Game");
         stopGame.setOnAction( e -> this.appController.stopGame());
@@ -75,10 +78,6 @@ public class RoboRallyMenuBar extends MenuBar {
         exitApp = new MenuItem("Exit");
         exitApp.setOnAction( e -> this.appController.exit());
         controlMenu.getItems().add(exitApp);
-
-        selectBoard = new MenuItem("Select Board");
-        selectBoard.setOnAction(e -> showBoardSelectionDialog());
-        controlMenu.getItems().add(selectBoard);
 
         controlMenu.setOnShowing(e -> update());
         controlMenu.setOnShown(e -> this.updateBounds());
@@ -109,7 +108,7 @@ public class RoboRallyMenuBar extends MenuBar {
         dialog.setContentText("Board:");
 
         Optional<String> result = dialog.showAndWait();
-        //To be implemented:
+
         System.out.println(result.orElse(""));
         result.ifPresent(board -> appController.newGame(board)); // Call a method to set the selected board
     }
