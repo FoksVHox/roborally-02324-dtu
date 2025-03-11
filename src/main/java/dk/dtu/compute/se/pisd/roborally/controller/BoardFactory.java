@@ -92,16 +92,17 @@ public class BoardFactory {
         Checkpoint checkpoint2 = new Checkpoint(2);
         space.getActions().add(checkpoint2);
 
+        //in the case that the board is too small
         try {
-            space = board.getSpace(11, 7);
+            space = board.getSpace(11, 6);
             if (space != null) { // Ensure the space exists before using it
                 Checkpoint checkpoint3 = new Checkpoint(3);
                 space.getActions().add(checkpoint3);
             } else {
-                System.err.println("Warning: Checkpoint at (11,7) is out of bounds for the current board.");
+                System.err.println("Warning: Checkpoint at (11,6) is out of bounds for the current board.");
             }
         } catch (Exception e) {
-            System.err.println("Error placing checkpoint at (11,7): " + e.getMessage());
+            System.err.println("Error placing checkpoint at (11,6): " + e.getMessage());
         }
 
 

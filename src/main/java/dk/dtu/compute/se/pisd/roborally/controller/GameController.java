@@ -123,7 +123,7 @@ public class GameController {
     // XXX V2
     public void executeStep() {
         board.setStepMode(true);
-        continuePrograms();
+        executeNextStep();
     }
 
     // XXX V2
@@ -187,6 +187,8 @@ public class GameController {
                 case FAST_FORWARD:
                     this.fastForward(player);
                     break;
+                case U_TURN:
+                    this.uTurn(player);
                 default:
                     // DO NOTHING (for now)
             }
@@ -195,22 +197,58 @@ public class GameController {
 
     // TODO V2
     public void moveForward(@NotNull Player player) {
+        player = board.getCurrentPlayer();
+        Space currentSpace = player.getSpace();
+        Heading heading = player.getHeading();
 
+        Space nextSpace = board.getNeighbour(currentSpace, heading);
+
+        // Check if the next space is valid and not blocked by a wall
+        if (nextSpace != null && nextSpace.getPlayer() == null) {
+            // Move the player
+            nextSpace.setPlayer(player);
+            currentSpace.setPlayer(null);
+        }
     }
+
+    public void moveBackward(@NotNull Player player) {
+        player = board.getCurrentPlayer(); // Ensure we are working with the current player
+        Space currentSpace = player.getSpace();
+        Heading heading = player.getHeading().opposite(); // Move in the opposite direction of current heading
+
+        Space nextSpace = board.getNeighbour(currentSpace, heading);
+
+        // Check if the next space is valid and empty (no other player there)
+        if (nextSpace != null && nextSpace.getPlayer() == null) {
+            // Move the player
+            nextSpace.setPlayer(player);
+            currentSpace.setPlayer(null);
+        }
+    }
+
+
 
     // TODO V2
     public void fastForward(@NotNull Player player) {
+        //move two spaces
+        moveForward(player);
+        moveForward(player);
 
     }
 
     // TODO V2
     public void turnRight(@NotNull Player player) {
+        player.setHeading(player.getHeading().next());
 
     }
 
     // TODO V2
     public void turnLeft(@NotNull Player player) {
+        player.setHeading(player.getHeading().prev());
 
+    }
+    public void uTurn(Player player) {
+        player.setHeading(player.getHeading().next().next()); // Rotate 180 degrees
     }
 
     public boolean moveCards(@NotNull CommandCardField source, @NotNull CommandCardField target) {
@@ -224,6 +262,7 @@ public class GameController {
             return false;
         }
     }
+
 
 
 
