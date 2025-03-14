@@ -24,6 +24,8 @@ package dk.dtu.compute.se.pisd.roborally.controller;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.Objects;
+
 /**
  * ...
  *
@@ -93,12 +95,20 @@ public class GameController {
     }
 
     public void finnishGamePhase() {
-        if (board.getSpace(11, 6).getPlayer() != null) {
-            board.setPhase(Phase.FINISHED);
+        if (Objects.equals(board.boardName, "advanced")) {
+            if (board.getSpace(11, 6).getPlayer() != null) {
+                board.setPhase(Phase.FINISHED);
 
-            System.out.println(board.getSpace(11,6).getPlayer().getName());
+                System.out.println(board.getSpace(11, 6).getPlayer().getName());
 
 
+            }
+        }
+        else if (Objects.equals(board.boardName, "basic")) {
+            if (board.getSpace(7, 3).getPlayer() != null) {
+                board.setPhase(Phase.FINISHED);
+                System.out.println(board.getSpace(7, 3).getPlayer().getName());
+            }
         }
 
 
