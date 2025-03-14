@@ -15,12 +15,11 @@ public class Checkpoint extends FieldAction {
     }
 
     //temp
-    public void applyAction(Player player) {
-        System.out.println("Player reached checkpoint " + number);
-    }
 
     @Override
     public boolean doAction(GameController gameController, Space space) {
+        Player player = space.getPlayer();
+        System.out.println("Player reached checkpoint " + number);
         return false;
     }
 }

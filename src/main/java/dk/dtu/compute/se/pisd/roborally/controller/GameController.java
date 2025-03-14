@@ -184,6 +184,7 @@ public class GameController {
                         board.setCurrentPlayer(board.getPlayer(0));
                     } else {
                         activateConveyorBelts();
+                        activateCheckPoints();
                         startProgrammingPhase();
                     }
                 }
@@ -204,6 +205,19 @@ public class GameController {
                 for (FieldAction action : space.getActions()) {
                     if (action instanceof ConveyorBelt conveyorBelt) {
                         conveyorBelt.doAction(this, space);
+                    }
+                }
+            }
+        }
+    }
+
+    private void activateCheckPoints() {
+        for (int x = 0; x < board.width; x++) {
+            for (int y = 0; y < board.height; y++) {
+                Space space = board.getSpace(x, y);
+                for (FieldAction action : space.getActions()) {
+                    if (action instanceof Checkpoint checkpoint) {
+                        checkpoint.doAction(this, space);
                     }
                 }
             }
