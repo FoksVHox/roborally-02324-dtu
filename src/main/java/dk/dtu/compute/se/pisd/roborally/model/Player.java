@@ -134,5 +134,6 @@ public class Player extends Subject {
     }
 
     public void passCheckpoint(int checkpointNumber) {
+        return ;
     }
 }

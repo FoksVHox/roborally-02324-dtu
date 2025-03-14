@@ -154,6 +154,7 @@ public class GameController {
                         board.setStep(step);
                         board.setCurrentPlayer(board.getPlayer(0));
                     } else {
+                        activateConveyorBelts();
                         startProgrammingPhase();
                     }
                 }
@@ -166,6 +167,20 @@ public class GameController {
             assert false;
         }
     }
+
+    private void activateConveyorBelts() {
+        for (int x = 0; x < board.width; x++) {
+            for (int y = 0; y < board.height; y++) {
+                Space space = board.getSpace(x, y);
+                for (FieldAction action : space.getActions()) {
+                    if (action instanceof ConveyorBelt conveyorBelt) {
+                        conveyorBelt.doAction(this, space);
+                    }
+                }
+            }
+        }
+    }
+
 
     // XXX V2
     private void executeCommand(@NotNull Player player, Command command) {
@@ -187,8 +202,12 @@ public class GameController {
                 case FAST_FORWARD:
                     this.fastForward(player);
                     break;
+                //the commands for u_turn and backward movement
                 case U_TURN:
                     this.uTurn(player);
+                    break;
+                case BACKWARD:
+                    this.moveBackward(player);
                 default:
                     // DO NOTHING (for now)
             }
