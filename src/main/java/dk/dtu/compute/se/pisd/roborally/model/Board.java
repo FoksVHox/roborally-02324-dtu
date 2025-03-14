@@ -246,4 +246,6 @@ public class Board extends Subject {
         return "Player = " + getCurrentPlayer().getName() +". Moves = " + getMoves();
     }
 
+
+
 }

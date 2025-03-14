@@ -92,6 +92,24 @@ public class GameController {
         board.setStep(0);
     }
 
+    public void finnishGamePhase() {
+        if (board.getSpace(11, 6).getPlayer() != null) {
+            board.setPhase(Phase.FINISHED);
+
+            System.out.println(board.getSpace(11,6).getPlayer().getName());
+
+
+        }
+
+
+
+    }
+    public static void ShowWinningBoard() {
+
+
+
+    }
+
     // XXX V2
     private void makeProgramFieldsVisible(int register) {
         if (register >= 0 && register < Player.NO_REGISTERS) {
@@ -118,6 +136,7 @@ public class GameController {
     public void executePrograms() {
         board.setStepMode(false);
         continuePrograms();
+        finnishGamePhase();
     }
 
     // XXX V2
