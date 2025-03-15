@@ -133,7 +133,21 @@ public class Player extends Subject {
         return cards[i];
     }
 
+    private int lastCheckpoint = 0; // Tracks the highest checkpoint number passed
+
+    public int getLastCheckpoint() {
+        return lastCheckpoint;
+    }
+
     public void passCheckpoint(int checkpointNumber) {
-        return ;
+        if (checkpointNumber == lastCheckpoint + 1) { // Only accept if it's the next checkpoint
+            lastCheckpoint = checkpointNumber;
+            System.out.println("Player " + name + " passed checkpoint " + checkpointNumber);
+            notifyChange(); // Optional, if you want to update GUI
+        } else if (checkpointNumber <= lastCheckpoint) {
+            System.out.println("Player " + name + " already passed checkpoint " + checkpointNumber);
+        } else {
+            System.out.println("Player " + name + " must first pass checkpoint " + (lastCheckpoint + 1));
+        }
     }
 }

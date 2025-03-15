@@ -19,7 +19,9 @@ public class Checkpoint extends FieldAction {
     @Override
     public boolean doAction(GameController gameController, Space space) {
         Player player = space.getPlayer();
-        System.out.println("Player reached checkpoint " + number);
+        if (player != null) {
+            player.passCheckpoint(number); // ✅ Update player progress!
+        }
         return false;
     }
 }
