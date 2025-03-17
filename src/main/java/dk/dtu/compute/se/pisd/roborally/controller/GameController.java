@@ -97,7 +97,7 @@ public class GameController {
 
     public void finnishGamePhase() {
         if (Objects.equals(board.boardName, "<advanced>")) {
-            if (board.getSpace(11, 6).getPlayer() != null) {
+            if (board.getSpace(11, 6).getPlayer() != null && Player.getLastCheckpoint() == 3) {
                 board.setPhase(Phase.FINISHED);
                 ShowWinningBoardAdvanced();
                 System.out.println(Player.getLastCheckpoint());
@@ -105,14 +105,13 @@ public class GameController {
 
         }
         else if (Objects.equals(board.boardName, "basic")) {
-            if (board.getSpace(7, 3).getPlayer() != null) {
+            if (board.getSpace(7, 3).getPlayer() != null && Player.getLastCheckpoint() == 2) {
                 board.setPhase(Phase.FINISHED);
                 ShowWinningBoardBasic();
                 System.out.println(Player.getLastCheckpoint());
             }
-            System.out.println("hej 2");
         }
-        System.out.println(board.boardName);
+
 
 
     }
