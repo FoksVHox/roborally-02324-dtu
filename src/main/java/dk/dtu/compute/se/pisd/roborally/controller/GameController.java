@@ -24,6 +24,7 @@ package dk.dtu.compute.se.pisd.roborally.controller;
 import dk.dtu.compute.se.pisd.roborally.model.*;
 import org.jetbrains.annotations.NotNull;
 
+import javax.swing.*;
 import java.util.Objects;
 
 /**
@@ -34,7 +35,7 @@ import java.util.Objects;
  */
 public class GameController {
 
-    final public Board board;
+    static public Board board = null;
 
     public GameController(@NotNull Board board) {
         this.board = board;
@@ -108,6 +109,7 @@ public class GameController {
             if (board.getSpace(7, 3).getPlayer() != null) {
                 board.setPhase(Phase.FINISHED);
                 System.out.println(board.getSpace(7, 3).getPlayer().getName());
+                ShowWinningBoard();
             }
         }
 
@@ -115,10 +117,16 @@ public class GameController {
 
     }
     public static void ShowWinningBoard() {
+            // Show popup instantly when the game is won
+            JOptionPane.showMessageDialog(null, "Congratulations! " + board.getSpace(7, 3).getPlayer().getName() + " won the game!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+
+            // Optionally exit after showing popup
+            System.exit(0);
+        }
 
 
 
-    }
+
 
     // XXX V2
     private void makeProgramFieldsVisible(int register) {

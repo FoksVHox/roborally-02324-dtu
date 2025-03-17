@@ -10,6 +10,7 @@ module roborally {
     // requires mysql.connector.j; to avoid warnings not (explicitly) required anymore
     requires com.google.common;
     requires com.google.gson;
+    requires java.desktop;
 
     exports dk.dtu.compute.se.pisd.roborally;
 
