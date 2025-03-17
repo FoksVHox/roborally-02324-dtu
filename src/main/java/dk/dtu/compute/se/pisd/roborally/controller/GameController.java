@@ -240,6 +240,8 @@ public class GameController {
             //     (this concerns the way cards are modelled as well as the way they are executed).
 
             switch (command) {
+                case LoR:
+                    board.setPhase(Phase.PLAYER_INTERACTION);
                 case FORWARD:
                     this.moveForward(player);
                     break;

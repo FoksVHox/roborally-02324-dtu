@@ -209,12 +209,12 @@ public class PlayerView extends Tab implements ViewObserver {
                     //      an interactive command card, and the buttons should represent
                     //      the player's choices of the interactive command card. The
                     //      following is just a mockup showing two options
-                    Button optionButton = new Button("left");
+                    Button optionButton = new Button("turn left");
                     optionButton.setOnAction( e -> gameController.lor(player, "left"));
                     optionButton.setDisable(false);
                     playerInteractionPanel.getChildren().add(optionButton);
 
-                    optionButton = new Button("right");
+                    optionButton = new Button("turn right");
                     optionButton.setOnAction( e -> gameController.lor(player, "right"));
                     optionButton.setDisable(false);
                     playerInteractionPanel.getChildren().add(optionButton);
