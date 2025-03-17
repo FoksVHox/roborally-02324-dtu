@@ -47,8 +47,8 @@ public class GameController {
      *
      * @param space the space to which the current player should move
      */
-    public void moveCurrentPlayerToSpace(@NotNull Space space)  {
-        if(space.getPlayer() != null) return;
+    public void moveCurrentPlayerToSpace(@NotNull Space space) {
+        if (space.getPlayer() != null) return;
 
         space.setPlayer(board.getCurrentPlayer());
         board.incrementMoves();
@@ -100,21 +100,18 @@ public class GameController {
             if (board.getSpace(11, 6).getPlayer() != null && Player.getLastCheckpoint() == 3) {
                 board.setPhase(Phase.FINISHED);
                 ShowWinningBoardAdvanced();
-
             }
 
-        }
-        else if (Objects.equals(board.boardName, "basic")) {
+        } else if (Objects.equals(board.boardName, "basic")) {
             if (board.getSpace(7, 3).getPlayer() != null && Player.getLastCheckpoint() == 2) {
                 board.setPhase(Phase.FINISHED);
                 ShowWinningBoardBasic();
-
             }
         }
 
-
-
     }
+
+
     public static void ShowWinningBoardBasic() {
             // Show popup instantly when the game is won
             JOptionPane.showMessageDialog(null, "Congratulations! " + board.getSpace(7, 3).getPlayer().getName() + " won the game!", "Game Over", JOptionPane.INFORMATION_MESSAGE);

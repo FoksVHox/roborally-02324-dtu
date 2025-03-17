@@ -134,7 +134,7 @@ public class Player extends Subject {
     }
 
     private static int lastCheckpoint = 0; // Tracks the highest checkpoint number passed
-
+    private int lastCheckpointNumber = 0;
 
     public void passCheckpoint(int checkpointNumber) {
         if (checkpointNumber == lastCheckpoint + 1) {
@@ -146,7 +146,12 @@ public class Player extends Subject {
         } else {
             System.out.println("Player " + name + " must first pass checkpoint " + (lastCheckpoint + 1));
         }
-
+        if (checkpointNumber == lastCheckpointNumber + 1) {
+            lastCheckpointNumber++;
+        }
+    }
+    public int getCollectedCheckpoints() {
+        return lastCheckpointNumber;
     }
     public static int getLastCheckpoint() {
         return lastCheckpoint;

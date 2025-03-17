@@ -246,6 +246,11 @@ public class Board extends Subject {
         return "Player = " + getCurrentPlayer().getName() +". Moves = " + getMoves();
     }
 
+    public String getCheckpointsMessage() {
+        int checkpoints = getCurrentPlayer().getCollectedCheckpoints();  // Get the current player's collected checkpoints
+        return "Player = " + getCurrentPlayer().getName() + " Checkpoints = " + checkpoints;
+    }
+
 
 
 }
