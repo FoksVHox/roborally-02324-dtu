@@ -100,7 +100,7 @@ public class GameController {
             if (board.getSpace(11, 6).getPlayer() != null && Player.getLastCheckpoint() == 3) {
                 board.setPhase(Phase.FINISHED);
                 ShowWinningBoardAdvanced();
-                System.out.println(Player.getLastCheckpoint());
+
             }
 
         }
@@ -108,7 +108,7 @@ public class GameController {
             if (board.getSpace(7, 3).getPlayer() != null && Player.getLastCheckpoint() == 2) {
                 board.setPhase(Phase.FINISHED);
                 ShowWinningBoardBasic();
-                System.out.println(Player.getLastCheckpoint());
+
             }
         }
 
