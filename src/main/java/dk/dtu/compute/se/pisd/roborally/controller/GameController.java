@@ -96,34 +96,34 @@ public class GameController {
     }
 
     public void finnishGamePhase() {
-        if (Objects.equals(board.boardName, "advanced")) {
+        if (Objects.equals(board.boardName, "<advanced>")) {
             if (board.getSpace(11, 6).getPlayer() != null) {
                 board.setPhase(Phase.FINISHED);
-
-                System.out.println(board.getSpace(11, 6).getPlayer().getName());
-
-
+                ShowWinningBoardAdvanced();
+                System.out.println(Player.getLastCheckpoint());
             }
+
         }
         else if (Objects.equals(board.boardName, "basic")) {
             if (board.getSpace(7, 3).getPlayer() != null) {
                 board.setPhase(Phase.FINISHED);
-                System.out.println(board.getSpace(7, 3).getPlayer().getName());
-                ShowWinningBoard();
+                ShowWinningBoardBasic();
+                System.out.println(Player.getLastCheckpoint());
             }
+            System.out.println("hej 2");
         }
-
+        System.out.println(board.boardName);
 
 
     }
-    public static void ShowWinningBoard() {
+    public static void ShowWinningBoardBasic() {
             // Show popup instantly when the game is won
             JOptionPane.showMessageDialog(null, "Congratulations! " + board.getSpace(7, 3).getPlayer().getName() + " won the game!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
-
-            // Optionally exit after showing popup
-            System.exit(0);
         }
-
+    public static void ShowWinningBoardAdvanced() {
+        // Show popup instantly when the game is won
+        JOptionPane.showMessageDialog(null, "Congratulations! " + board.getSpace(11, 6).getPlayer().getName() + " won the game!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
+    }
 
 
 

@@ -38,7 +38,8 @@ public enum Command {
     //added U turn
     U_TURN("U turn"),
     //added backwards
-    BACKWARD("Bwd");
+    BACKWARD("Bwd"),
+    LoR("left or Right");
 
     final public String displayName;
 
