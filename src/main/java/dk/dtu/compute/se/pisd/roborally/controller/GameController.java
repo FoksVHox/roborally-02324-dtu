@@ -240,6 +240,9 @@ public class GameController {
             //     (this concerns the way cards are modelled as well as the way they are executed).
 
             switch (command) {
+                case LoR:
+                    board.setPhase(Phase.PLAYER_INTERACTION);
+                    break;
                 case FORWARD:
                     this.moveForward(player);
                     break;
@@ -311,6 +314,16 @@ public class GameController {
     public void turnLeft(@NotNull Player player) {
         player.setHeading(player.getHeading().prev());
 
+    }
+    public void lor(@NotNull Player player, String direction) {
+        if (direction.equals("left")) {
+            turnLeft(player);
+            board.setPhase(Phase.ACTIVATION);
+        }
+        else if (direction.equals("right")) {
+            turnRight(player);
+            board.setPhase(Phase.ACTIVATION);
+        }
     }
     public void uTurn(Player player) {
         player.setHeading(player.getHeading().next().next()); // Rotate 180 degrees
