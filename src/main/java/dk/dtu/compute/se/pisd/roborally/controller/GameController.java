@@ -240,9 +240,6 @@ public class GameController {
             //     (this concerns the way cards are modelled as well as the way they are executed).
 
             switch (command) {
-                case LoR:
-                    board.setPhase(Phase.PLAYER_INTERACTION);
-                    break;
                 case FORWARD:
                     this.moveForward(player);
                     break;
@@ -269,28 +266,32 @@ public class GameController {
 
     // TODO V2
     public void moveForward(@NotNull Player player) {
+        player = board.getCurrentPlayer();
         Space currentSpace = player.getSpace();
         Heading heading = player.getHeading();
 
-        if (pushRobots(currentSpace, heading)) {
-            Space nextSpace = board.getNeighbour(currentSpace, heading);
-            if (nextSpace != null) {
-                nextSpace.setPlayer(player);
-                currentSpace.setPlayer(null);
-            }
+        Space nextSpace = board.getNeighbour(currentSpace, heading);
+
+        // Check if the next space is valid and not blocked by a wall
+        if (nextSpace != null && nextSpace.getPlayer() == null) {
+            // Move the player
+            nextSpace.setPlayer(player);
+            currentSpace.setPlayer(null);
         }
     }
 
     public void moveBackward(@NotNull Player player) {
+        player = board.getCurrentPlayer(); // Ensure we are working with the current player
         Space currentSpace = player.getSpace();
-        Heading heading = player.getHeading().opposite();
+        Heading heading = player.getHeading().opposite(); // Move in the opposite direction of current heading
 
-        if (pushRobots(currentSpace, heading)) {
-            Space nextSpace = board.getNeighbour(currentSpace, heading);
-            if (nextSpace != null) {
-                nextSpace.setPlayer(player);
-                currentSpace.setPlayer(null);
-            }
+        Space nextSpace = board.getNeighbour(currentSpace, heading);
+
+        // Check if the next space is valid and empty (no other player there)
+        if (nextSpace != null && nextSpace.getPlayer() == null) {
+            // Move the player
+            nextSpace.setPlayer(player);
+            currentSpace.setPlayer(null);
         }
     }
 
@@ -315,16 +316,6 @@ public class GameController {
         player.setHeading(player.getHeading().prev());
 
     }
-    public void lor(@NotNull Player player, String direction) {
-        if (direction.equals("left")) {
-            turnLeft(player);
-            board.setPhase(Phase.ACTIVATION);
-        }
-        else if (direction.equals("right")) {
-            turnRight(player);
-            board.setPhase(Phase.ACTIVATION);
-        }
-    }
     public void uTurn(Player player) {
         player.setHeading(player.getHeading().next().next()); // Rotate 180 degrees
     }
@@ -341,24 +332,7 @@ public class GameController {
         }
     }
 
-    private boolean pushRobots(Space space, Heading direction) {
-        Space nextSpace = board.getNeighbour(space, direction);
-        if (nextSpace == null || nextSpace.getWalls().contains(direction)) {
-            return false; // Movement blocked by a wall
-        }
 
-        Player nextPlayer = nextSpace.getPlayer();
-        if (nextPlayer != null) {
-            boolean pushed = pushRobots(nextSpace, direction);
-            if (!pushed) {
-                return false; // Chain movement blocked
-            }
-        }
-
-        nextSpace.setPlayer(space.getPlayer());
-        space.setPlayer(null);
-        return true;
-    }
 
 
     /**
