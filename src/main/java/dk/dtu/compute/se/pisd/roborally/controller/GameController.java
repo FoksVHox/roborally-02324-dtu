@@ -316,6 +316,16 @@ public class GameController {
         player.setHeading(player.getHeading().prev());
 
     }
+    public void lor(@NotNull Player player, String direction) {
+        if (direction.equals("left")) {
+            turnLeft(player);
+            board.setPhase(Phase.ACTIVATION);
+        } else if (direction.equals("right")) {
+            turnRight(player);
+            board.setPhase(Phase.ACTIVATION);
+        }
+    }
+
     public void uTurn(Player player) {
         player.setHeading(player.getHeading().next().next()); // Rotate 180 degrees
     }
