@@ -56,7 +56,11 @@ public class GameController {
         board.setCurrentPlayer(board.getNextPlayer());
     }
 
-    // XXX V2
+    /**
+     * Starts the programming phase of the game.
+     * This method sets the game phase to PROGRAMMING, assigns the first player as the current player,
+     * and resets the programming fields for all players. It also assigns new random command cards.
+     */
     public void startProgrammingPhase() {
         board.setPhase(Phase.PROGRAMMING);
         board.setCurrentPlayer(board.getPlayer(0));
@@ -79,14 +83,20 @@ public class GameController {
         }
     }
 
-    // XXX V2
+    /**
+     * Generates a random command card from the available command set.
+     */
     private CommandCard generateRandomCommandCard() {
         Command[] commands = Command.values();
         int random = (int) (Math.random() * commands.length);
         return new CommandCard(commands[random]);
     }
 
-    // XXX V2
+    /**
+     * Ends the programming phase and transitions the game to the activation phase.
+     * This method makes all program fields invisible, ensures the first player's program fields are visible,
+     * and sets the game phase to ACTIVATION. It also resets the current player and step to the initial state.
+     */
     public void finishProgrammingPhase() {
         makeProgramFieldsInvisible();
         makeProgramFieldsVisible(0);
@@ -95,6 +105,13 @@ public class GameController {
         board.setStep(0);
     }
 
+    /**
+     * Checks if the game phase should be finished based on the board and player position.
+     *
+     * If the board is "<advanced>", the game finishes when a player reaches space (11,6) and has passed the last checkpoint (3).
+     * If the board is "basic", the game finishes when a player reaches space (7,3) and has passed the last checkpoint (2).
+     * Once the game is finished, it updates the phase to FINISHED and displays the winning message.
+     */
     public void finnishGamePhase() {
         if (Objects.equals(board.boardName, "<advanced>")) {
             if (board.getSpace(11, 6).getPlayer() != null && Player.getLastCheckpoint() == 3) {
@@ -111,7 +128,9 @@ public class GameController {
 
     }
 
-
+    /**
+     * Displays a popup message declaring the winner, for each of the boards
+     */
     public static void ShowWinningBoardBasic() {
         // Show popup instantly when the game is won
         JOptionPane.showMessageDialog(null, "Congratulations! " + board.getSpace(7, 3).getPlayer().getName() + " won the game!", "Game Over", JOptionPane.INFORMATION_MESSAGE);
@@ -124,7 +143,9 @@ public class GameController {
 
 
 
-    // XXX V2
+    /**
+     * Makes the program field at the specified register visible for all players.
+     */
     private void makeProgramFieldsVisible(int register) {
         if (register >= 0 && register < Player.NO_REGISTERS) {
             for (int i = 0; i < board.getPlayersNumber(); i++) {
@@ -135,7 +156,9 @@ public class GameController {
         }
     }
 
-    // XXX V2
+    /**
+     * Hides all program fields for all players.
+     */
     private void makeProgramFieldsInvisible() {
         for (int i = 0; i < board.getPlayersNumber(); i++) {
             Player player = board.getPlayer(i);
@@ -146,27 +169,45 @@ public class GameController {
         }
     }
 
-    // XXX V2
+    /**
+     * Executes all player programs in sequence.
+     *
+     * This method disables step mode, runs the programs, and checks if the game should finish.
+     */
     public void executePrograms() {
         board.setStepMode(false);
         continuePrograms();
         finnishGamePhase();
     }
 
-    // XXX V2
+    /**
+     * Executes the next step in the game while keeping step mode enabled.
+     */
     public void executeStep() {
         board.setStepMode(true);
         executeNextStep(false);
     }
 
-    // XXX V2
+    /**
+     * Continues executing programs while the game is in the ACTIVATION phase
+     * and step mode is not enabled.
+     *
+     * If `waitingForLoR` is false, execution stops immediately (temporary fix).
+     */
     private void continuePrograms() {
         do {
             executeNextStep(false);
         } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
     }
 
-    // XXX V2
+    /**
+     * Executes the next step in the player's program.
+     *
+     * Retrieves the current player's command card and executes it.
+     * If player input is required, execution stops. Otherwise, it moves to the next player
+     * or advances to the next step. When all steps are completed, conveyor belts and
+     * checkpoints activate, and a new programming phase begins.
+     */
     public void executeNextStep(boolean interactiveExecuted) {
         Player currentPlayer = board.getCurrentPlayer();
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
@@ -175,6 +216,7 @@ public class GameController {
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
                 if (card != null) {
                     Command command = card.command;
+                    //prevents LoR from entering a permanent loop
                     if (card.command == Command.LoR) {
                         if (!interactiveExecuted) {
                             board.setPhase(Phase.PLAYER_INTERACTION);
@@ -208,6 +250,11 @@ public class GameController {
             assert false;
         }
     }
+    /**
+     * Activates all conveyor belts on the board.
+     *
+     * This method iterates over all spaces on the board and triggers conveyor belt actions, if present.
+     */
     private void activateConveyorBelts() {
         for (int x = 0; x < board.width; x++) {
             for (int y = 0; y < board.height; y++) {
@@ -220,7 +267,11 @@ public class GameController {
             }
         }
     }
-
+    /**
+     * Activates all checkpoints on the board.
+     *
+     * This method iterates over all spaces on the board and triggers checkpoint actions, if present.
+     */
     private void activateCheckPoints() {
         for (int x = 0; x < board.width; x++) {
             for (int y = 0; y < board.height; y++) {
@@ -235,7 +286,13 @@ public class GameController {
     }
 
 
-    // XXX V2
+    /**
+     * Executes the given command for a specific player.
+     *
+     * Depending on the command type, this method performs different actions such as movement, turning, or interaction.
+     * If the command requires player input (e.g., Left or Right), the game enters the PLAYER_INTERACTION phase.
+     *
+     */
     private void executeCommand(@NotNull Player player, Command command) {
         if (player != null && player.board == board && command != null) {
             // XXX This is a very simplistic way of dealing with some basic cards and
@@ -271,7 +328,10 @@ public class GameController {
         }
     }
 
-    // TODO V2
+    /**
+     *
+     * @param player player movement makes forward in the direction the player is facing possible
+     */
     public void moveForward(@NotNull Player player) {
         Space currentSpace = player.getSpace();
         Heading heading = player.getHeading();
@@ -285,6 +345,10 @@ public class GameController {
         }
     }
 
+    /**
+     *
+     * @param player player movement makes moving backwards one space possible
+     */
     public void moveBackward(@NotNull Player player) {
         Space currentSpace = player.getSpace();
         Heading heading = player.getHeading().opposite(); // Move in the opposite direction of current heading
@@ -299,8 +363,10 @@ public class GameController {
     }
 
 
-
-    // TODO V2
+    /**
+     *
+     * @param player player movement makes moving two spaces at a time possible
+     */
     public void fastForward(@NotNull Player player) {
         //move two spaces
         moveForward(player);
@@ -308,18 +374,29 @@ public class GameController {
 
     }
 
-    // TODO V2
+    /**
+     *
+     * @param player player movement makes turning right possible
+     */
     public void turnRight(@NotNull Player player) {
         player.setHeading(player.getHeading().next());
 
     }
 
-    // TODO V2
+    /**
+     *
+     * @param player player movement makes turning left possible
+     */
     public void turnLeft(@NotNull Player player) {
         player.setHeading(player.getHeading().prev());
 
     }
 
+    /**
+     *
+     * @param player player movement, interactive card
+     * @param direction the direction the player is heading towards
+     */
     public void lor(@NotNull Player player, String direction) {
         if (direction.equals("left")) {
             turnLeft(player);
@@ -333,26 +410,22 @@ public class GameController {
             continuePrograms();
         }
 
-        // tunr back to actiom mode
-        // and resum exeution loop
     }
 
+    /**
+     *
+     * @param player controls player movement, makes 180 degree turns possible
+     */
     public void uTurn(Player player) {
         player.setHeading(player.getHeading().next().next()); // Rotate 180 degrees
     }
 
-    public boolean moveCards(@NotNull CommandCardField source, @NotNull CommandCardField target) {
-        CommandCard sourceCard = source.getCard();
-        CommandCard targetCard = target.getCard();
-        if (sourceCard != null && targetCard == null) {
-            target.setCard(sourceCard);
-            source.setCard(null);
-            return true;
-        } else {
-            return false;
-        }
-    }
-
+    /**
+     *
+     * @param space the spaces of the board
+     * @param direction the direction that the player is heading towards
+     * @return should return false if movement is blocked in some form.
+     */
     private boolean pushRobots(Space space, Heading direction) {
         Space nextSpace = board.getNeighbour(space, direction);
         if (nextSpace == null || nextSpace.getWalls().contains(direction)) {

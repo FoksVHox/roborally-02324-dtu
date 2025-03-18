@@ -290,6 +290,10 @@ public class Board extends Subject {
         return getSpace(x, y);
     }
 
+    /**
+     *
+     * @return returns a status message with the amount of moves the player makes, updates for every register executed
+     */
     public String getStatusMessage() {
         // this is actually a view aspect, but for making assignment V1 easy for
         // the students, this method gives a string representation of the current
@@ -299,6 +303,10 @@ public class Board extends Subject {
         return "Player = " + getCurrentPlayer().getName() +". Moves = " + getMoves();
     }
 
+    /**
+     *
+     * @return returns a status message with the amount of checkpoints the player has collected, updates for every register executed
+     */
     public String getCheckpointsMessage() {
         int checkpoints = getCurrentPlayer().getCollectedCheckpoints();  // Get the current player's collected checkpoints
         return "Player = " + getCurrentPlayer().getName() + " Checkpoints = " + checkpoints;
