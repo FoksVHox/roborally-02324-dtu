@@ -190,6 +190,112 @@ class GameControllerTest {
         assertEquals(Phase.ACTIVATION, board.getPhase(), "Game phase should be ACTIVATION!");
         assertEquals(board.getPlayer(0), board.getCurrentPlayer(), "First player should be current player!");
     }
+    @Test
+    void testFastForwardMultipleMoves() {
+        Board board = gameController.board;
+        Player current = board.getCurrentPlayer();
+        Space currentSpace = current.getSpace();
 
+        // Fast-forward  player
+        gameController.fastForward(current);
+
+        // Check if the player has moved two spaces forward (assuming no walls or collisions)
+        assertNotEquals(currentSpace, current.getSpace(), "Player should have moved two spaces forward.");
+    }
+
+    @Test
+    void testPlayerPushAnotherPlayer() {
+        Board board = gameController.board;
+        Player player1 = board.getPlayer(0);
+        Player player2 = board.getPlayer(1);
+
+        player1.setSpace(board.getSpace(1, 1)); // Player 1 at (1,1)
+        player2.setSpace(board.getSpace(1, 2)); // Player 2 at (1,2)
+
+        gameController.moveForward(player1); // Push Player 1 into Player 2
+
+        assertEquals(player1, board.getSpace(1, 2).getPlayer(), "Player 1 should not have moved into Player 2.");
+    }
+
+
+}
+
+class GameController2 {
+    private GameController gameController;
+    private Board basicBoard;
+    private Board advancedBoard;
+    private Player player;
+
+    @BeforeEach
+    void setUp() {
+        basicBoard = new Board(8, 8);
+        basicBoard.boardName = "basic";
+
+        advancedBoard = new Board(15, 8);
+        advancedBoard.boardName = "advanced";
+    }
+
+    @AfterEach
+    void tearDown() {
+        gameController = null;
+        player = null;
+    }
+
+
+
+    @Test
+    void testBasicBoardCheckpointProgression() {
+        gameController = new GameController(basicBoard);
+        Board board = gameController.board;
+
+        player = new Player(board, null, "TestPlayer");
+        board.addPlayer(player);
+        player.setSpace(board.getSpace(2, 3)); // Player starts near first checkpoint
+
+        // Simulate player passing checkpoints
+        player.passCheckpoint(1);
+        assertEquals(1, player.getCollectedCheckpoints(), "Player should have passed checkpoint 1");
+
+        player.passCheckpoint(2);
+        assertEquals(2, player.getCollectedCheckpoints(), "Player should have passed checkpoint 2");
+
+        // Attempt to skip a checkpoint
+        player.passCheckpoint(4);
+        assertEquals(2, player.getCollectedCheckpoints(), "Player should NOT be able to skip checkpoint 3");
+
+        // Pass checkpoint 3 and then checkpoint 4
+        player.passCheckpoint(3);
+        assertEquals(3, player.getCollectedCheckpoints(), "Player should have passed checkpoint 3");
+
+        player.passCheckpoint(4);
+        assertEquals(4, player.getCollectedCheckpoints(), "Player should have passed checkpoint 4");
+    }
+
+
+
+    @Test
+    void testAdvancedBoardWinningCondition() {
+        gameController = new GameController(advancedBoard);
+        Board board = gameController.board;
+
+        player = new Player(board, null, "TestPlayer");
+        board.addPlayer(player);
+        player.setSpace(board.getSpace(11, 6)); // Assume this is near a checkpoint
+
+        // Simulate passing checkpoints in order
+        player.passCheckpoint(1);
+        player.passCheckpoint(2);
+        player.passCheckpoint(3);
+
+        assertEquals(3, player.getCollectedCheckpoints(), "Player should have collected 3 checkpoints");
+
+        // Winning condition: Player reaches the final checkpoint
+        player.passCheckpoint(4);
+        assertEquals(4, player.getCollectedCheckpoints(), "Player should have passed the last checkpoint");
+
+        gameController.finnishGamePhase();
+
+        assertEquals(Phase.INITIALISATION, board.getPhase(), "Game should be finished when the last checkpoint is passed");
+    }
 
 }
