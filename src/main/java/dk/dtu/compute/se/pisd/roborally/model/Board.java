@@ -74,15 +74,27 @@ public class Board extends Subject {
         }
         this.stepMode = false;
     }
-
+    /**
+     * Constructs a Board with the specified width and height.
+     * Defaults to using "defaultboard" as the board name.
+     *
+     * @param width  The width of the board.
+     * @param height The height of the board.
+     */
     public Board(int width, int height) {
         this(width, height, "defaultboard");
     }
-
+    /**
+     * Gets the unique game ID.
+     *
+     */
     public Integer getGameId() {
         return gameId;
     }
-
+    /**
+     * Sets the game ID if it has not been assigned before.
+     *
+     */
     public void setGameId(int gameId) {
         if (this.gameId == null) {
             this.gameId = gameId;
@@ -92,7 +104,9 @@ public class Board extends Subject {
             }
         }
     }
-
+    /**
+     * Retrieves the space at the specified coordinates.
+     */
     public Space getSpace(int x, int y) {
         if (x >= 0 && x < width &&
                 y >= 0 && y < height) {
@@ -101,18 +115,26 @@ public class Board extends Subject {
             return null;
         }
     }
-
+    /**
+     * Gets the number of players on the board.
+     */
     public int getPlayersNumber() {
         return players.size();
     }
-
+    /**
+     * Adds a player to the board if they are not already present.
+     *
+     */
     public void addPlayer(@NotNull Player player) {
         if (player.board == this && !players.contains(player)) {
             players.add(player);
             notifyChange();
         }
     }
-
+    /**
+     * Retrieves a player by index.
+     *
+     */
     public Player getPlayer(int i) {
         if (i >= 0 && i < players.size()) {
             return players.get(i);
@@ -133,36 +155,52 @@ public class Board extends Subject {
     }
 
 
+    /**
+     * Gets the current player.
+     */
 
     public Player getCurrentPlayer() {
         return current;
     }
-
+    /**
+     * Sets the current player if they are in the game.
+     */
     public void setCurrentPlayer(Player player) {
         if (player != this.current && players.contains(player)) {
             this.current = player;
             notifyChange();
         }
     }
-
+    /**
+     * Gets the current game phase.
+     *
+     */
     public Phase getPhase() {
         return phase;
     }
-
+    /**
+     * Sets the game phase and notifies of changes.
+     *
+     */
     public void setPhase(Phase phase) {
         if (phase != this.phase) {
             this.phase = phase;
             notifyChange();
         }
     }
-
+    /**
+     * Gets the total number of moves made.
+     *
+     */
     public int getMoves() { return moves; }
 
     public void setMoves(int moves) {
         this.moves = moves;
         notifyChange();
     }
-
+    /**
+     * Increments the move count by one and notifies of changes.
+     */
     public void incrementMoves() {
         moves++;
         notifyChange();
@@ -172,29 +210,44 @@ public class Board extends Subject {
         moves--;
         notifyChange();
     }
-
+    /**
+     * Gets the current step number.
+     *
+     */
     public int getStep() {
         return step;
     }
-
+    /**
+     * Sets the current step and notifies of changes.
+     *
+     */
     public void setStep(int step) {
         if (step != this.step) {
             this.step = step;
             notifyChange();
         }
     }
-
+    /**
+     * Checks if the game is in step mode.
+     *
+     */
     public boolean isStepMode() {
         return stepMode;
     }
-
+    /**
+     * Enables or disables step mode and notifies of changes.
+     *
+     */
     public void setStepMode(boolean stepMode) {
         if (stepMode != this.stepMode) {
             this.stepMode = stepMode;
             notifyChange();
         }
     }
-
+    /**
+     * Gets the index of a given player in the game.
+     *
+     */
     public int getPlayerNumber(@NotNull Player player) {
         if (player.board == this) {
             return players.indexOf(player);
