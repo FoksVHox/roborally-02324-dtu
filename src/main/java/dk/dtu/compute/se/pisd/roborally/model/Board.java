@@ -43,7 +43,7 @@ public class Board extends Subject {
 
     public final int height;
 
-    public final String boardName;
+    public String boardName;
 
     private Integer gameId;
 
@@ -201,7 +201,7 @@ public class Board extends Subject {
         moves++;
         notifyChange();
     }
-    
+
     /**
      * Gets the current step number.
      *
