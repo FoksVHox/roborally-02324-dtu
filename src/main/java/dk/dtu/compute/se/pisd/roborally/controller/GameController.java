@@ -156,18 +156,18 @@ public class GameController {
     // XXX V2
     public void executeStep() {
         board.setStepMode(true);
-        executeNextStep();
+        executeNextStep(false);
     }
 
     // XXX V2
     private void continuePrograms() {
         do {
-            executeNextStep();
+            executeNextStep(false);
         } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
     }
 
     // XXX V2
-    private void executeNextStep() {
+    public void executeNextStep(boolean interactiveExecuted) {
         Player currentPlayer = board.getCurrentPlayer();
         if (board.getPhase() == Phase.ACTIVATION && currentPlayer != null) {
             int step = board.getStep();
@@ -175,10 +175,13 @@ public class GameController {
                 CommandCard card = currentPlayer.getProgramField(step).getCard();
                 if (card != null) {
                     Command command = card.command;
-                    executeCommand(currentPlayer, command);
-                    //fix for Left or Right
-                    if (board.getPhase() == Phase.PLAYER_INTERACTION) {
-                        return; // Stop and wait for player input
+                    if (card.command == Command.LoR) {
+                        if (!interactiveExecuted) {
+                            board.setPhase(Phase.PLAYER_INTERACTION);
+                            return;
+                        }
+                    } else {
+                        executeCommand(currentPlayer, command);
                     }
                 }
                 int nextPlayerNumber = board.getPlayerNumber(currentPlayer) + 1;
@@ -190,7 +193,6 @@ public class GameController {
                         makeProgramFieldsVisible(step);
                         board.setStep(step);
                         board.setCurrentPlayer(board.getPlayer(0));
-                        executeNextStep();
                     } else {
                         activateConveyorBelts();
                         activateCheckPoints();
@@ -241,9 +243,9 @@ public class GameController {
             //     (this concerns the way cards are modelled as well as the way they are executed).
 
             switch (command) {
-                case LoR:
-                    board.setPhase(Phase.PLAYER_INTERACTION);
-                    break;
+                // case LoR:
+                //    board.setPhase(Phase.PLAYER_INTERACTION);
+                //    break;
                 case FORWARD:
                     this.moveForward(player);
                     break;
@@ -326,8 +328,10 @@ public class GameController {
         }
 
         board.setPhase(Phase.ACTIVATION);
-
-        continuePrograms();
+        executeNextStep(true);
+        if (board.getPhase() == Phase.ACTIVATION) {
+            continuePrograms();
+        }
 
         // tunr back to actiom mode
         // and resum exeution loop
