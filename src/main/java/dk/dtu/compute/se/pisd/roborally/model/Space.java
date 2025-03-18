@@ -43,11 +43,8 @@ public class Space extends Subject {
 
     private Player player;
 
-
-    // XXX A3
     private List<Heading> walls = new ArrayList<>();
 
-    // XXX A3
     private List<FieldAction> actions = new ArrayList<>();
 
     public Space(Board board, int x, int y) {
@@ -85,7 +82,6 @@ public class Space extends Subject {
      *
      * @return the list of walls on this space
      */
-    // XXX A3
     public List<Heading> getWalls() {
         return walls;
     }
@@ -98,7 +94,6 @@ public class Space extends Subject {
      *
      * @return the list of field actions on this space
      */
-    // XXX A3
     public List<FieldAction> getActions() {
         return actions;
     }
@@ -109,7 +104,7 @@ public class Space extends Subject {
         // notify the space of these changes by calling this method.
         notifyChange();
     }
-
+    // adds the checkpoint to the space class.
     public Checkpoint getCheckpoint() {
         for (FieldAction action : actions) {
             if (action instanceof Checkpoint) {

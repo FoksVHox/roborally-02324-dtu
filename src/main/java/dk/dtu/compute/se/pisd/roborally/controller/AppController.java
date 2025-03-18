@@ -56,6 +56,10 @@ public class AppController implements Observer {
         this.roboRally = roboRally;
     }
 
+    /**
+     * Shows dialog window so player can pick the amount of players that are playing.
+     * @param boardType
+     */
     public void newGame(String boardType) {
         ChoiceDialog<Integer> dialog = new ChoiceDialog<>(PLAYER_NUMBER_OPTIONS.get(0), PLAYER_NUMBER_OPTIONS);
         dialog.setTitle("Player number");
@@ -80,8 +84,6 @@ public class AppController implements Observer {
                 board.addPlayer(player);
                 player.setSpace(board.getSpace(i % board.width, i));
             }
-
-            // XXX V2
             gameController.startProgrammingPhase();
 
             roboRally.createBoardView(gameController);
@@ -93,12 +95,11 @@ public class AppController implements Observer {
     }
 
     public void saveGame() {
-        // TODO V4a: needs to be implemented
+        // Assignment description does not mention this as a task.
     }
 
     public void loadGame() {
-        // TODO V4a: needs to be implemented
-        // for now, we just create a new game
+        // for now, we just create a new game, assignment description does not mention this as a task.
         if (gameController == null) {
             newGame();
         }
@@ -126,6 +127,9 @@ public class AppController implements Observer {
         return false;
     }
 
+    /**
+     * As the name suggests, it makes the player exit the application.
+     */
     public void exit() {
         if (gameController != null) {
             Alert alert = new Alert(AlertType.CONFIRMATION);
@@ -152,9 +156,12 @@ public class AppController implements Observer {
 
     @Override
     public void update(Subject subject) {
-        // XXX do nothing for now
     }
 
+    /**
+     * Sets the board, after the player has selected the board type.
+     * @param board
+     */
     public void setBoard(String board) {
         // Stops game
         if (gameController != null) {

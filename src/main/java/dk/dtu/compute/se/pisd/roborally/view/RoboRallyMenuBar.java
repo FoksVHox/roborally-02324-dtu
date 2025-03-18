@@ -53,6 +53,10 @@ public class RoboRallyMenuBar extends MenuBar {
 
     private MenuItem exitApp;
 
+    /**
+     * The menubar for the game, logic for the buttons are written in appcontroller
+     * @see AppController
+     */
     public RoboRallyMenuBar(AppController appController) {
         this.appController = appController;
 
@@ -84,7 +88,9 @@ public class RoboRallyMenuBar extends MenuBar {
         update();
     }
 
-
+    /**
+     * updates the menu bar according to the state the game is in, like not showing the option to stop a game if there is no game to stop,
+     */
     public void update() {
         if (appController.isGameRunning()) {
             stopGame.setVisible(true);
@@ -97,6 +103,9 @@ public class RoboRallyMenuBar extends MenuBar {
         }
     }
 
+    /**
+     * This shows the dialog window so player can choose between basic and advanced boards, as well as how many players.
+     */
     private void showBoardSelectionDialog() {
         List<String> choices = new ArrayList<>();
         choices.add("basic");

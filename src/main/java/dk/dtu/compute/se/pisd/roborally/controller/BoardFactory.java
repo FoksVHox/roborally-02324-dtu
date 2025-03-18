@@ -83,7 +83,7 @@ public class BoardFactory {
         action.setHeading(Heading.WEST);
         space.getActions().add(action);
 
-        //Checkpoint
+        //Checkpoints
         space = board.getSpace(5, 1);
         Checkpoint checkpoint1 = new Checkpoint(1);
         space.getActions().add(checkpoint1);
@@ -92,21 +92,19 @@ public class BoardFactory {
         Checkpoint checkpoint2 = new Checkpoint(2);
         space.getActions().add(checkpoint2);
 
-        //allows for a checkpoint "out of bounds"
+        //allows for a checkpoint "out of bounds" when using the basic board
             space = board.getSpace(11, 6);
             if (space != null) { // Ensure the space exists before using it
                 Checkpoint checkpoint3 = new Checkpoint(3);
                 space.getActions().add(checkpoint3);
             }
-
-
-
-
-
-
         return board;
     }
 
+    /**
+     * The following two methods creates two types of boards of different sizes.
+     * @return returns the board types.
+     */
     private Board createAdvancedBoard() {
         return new Board(15,8, "<advanced>");
     }

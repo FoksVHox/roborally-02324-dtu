@@ -64,6 +64,12 @@ public class PlayerView extends Tab implements ViewObserver {
 
     private GameController gameController;
 
+    /**
+     * This class handles the GUI for the players.
+     *
+     * @param gameController the gameController of the respective game
+     * @param player handles player information like how many card etc. and send them here so the player can see what is happening.
+     */
     public PlayerView(@NotNull GameController gameController, @NotNull Player player) {
         super(player.getName());
         this.setStyle("-fx-text-base-color: " + player.getColor() + ";");
@@ -88,13 +94,7 @@ public class PlayerView extends Tab implements ViewObserver {
             }
         }
 
-        // FIXME the following buttons should actually not be on the tabs of the individual
-        //       players, but on the PlayersView (view for all players). This should be
-        //       refactored.
-
-        // TODO V2: the following buttons should be associated with the proper methods
-        //          in the game controller
-
+        // adds buttons here, so player can execute the program.
         finishButton = new Button("Finish Programming");
         finishButton.setOnAction( e -> gameController.finishProgrammingPhase());
 
@@ -139,10 +139,12 @@ public class PlayerView extends Tab implements ViewObserver {
         }
     }
 
+    /**
+     * This class updates the view for the players.
+     */
     @Override
     public void updateView(Subject subject) {
         if (subject == player.board) {
-            // TODO A3 update the status label for this player
             for (int i = 0; i < Player.NO_REGISTERS; i++) {
                 CardFieldView cardFieldView = programCardViews[i];
                 if (cardFieldView != null) {
@@ -198,6 +200,7 @@ public class PlayerView extends Tab implements ViewObserver {
                         stepButton.setDisable(true);
                 }
             } else {
+                // the UI element for the interactive cards, in this case we only have one which is the LoR (Left or Right) card.
                 if (!programPane.getChildren().contains(playerInteractionPanel)) {
                     programPane.getChildren().remove(buttonPanel);
                     programPane.add(playerInteractionPanel, Player.NO_REGISTERS, 0);
@@ -205,10 +208,6 @@ public class PlayerView extends Tab implements ViewObserver {
                 playerInteractionPanel.getChildren().clear();
 
                 if (player.board.getCurrentPlayer() == player) {
-                    // TODO V3: these buttons should be shown only when there is
-                    //      an interactive command card, and the buttons should represent
-                    //      the player's choices of the interactive command card. The
-                    //      following is just a mockup showing two options
                     Button optionButton = new Button("turn left");
                     optionButton.setOnAction( e -> gameController.lor(player, "left"));
                     optionButton.setDisable(false);

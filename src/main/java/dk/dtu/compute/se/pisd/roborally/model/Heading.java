@@ -39,6 +39,10 @@ public enum Heading {
         return values()[(this.ordinal() + values().length - 1) % values().length];
     }
 
+    /**
+     * Creates the method to "reverse"/ go backwards in a more simple way.
+     * @return the opposite of the original direction the player was heading
+     */
     public Heading opposite() {
         return values()[(this.ordinal() + 2) % values().length];
     }

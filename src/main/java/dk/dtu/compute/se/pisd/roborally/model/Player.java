@@ -136,6 +136,10 @@ public class Player extends Subject {
     private static int lastCheckpoint = 0; // Tracks the highest checkpoint number passed
     private int lastCheckpointNumber = 0;
 
+    /**
+     * passCheckpoint makes sure that teh player can't collect a checkpoint unless they have passed the previous checkpoint.
+     * @param checkpointNumber the number of the checkpoint that was passed.
+     */
     public void passCheckpoint(int checkpointNumber) {
         if (checkpointNumber == lastCheckpoint + 1) {
             lastCheckpoint = checkpointNumber;
@@ -150,6 +154,11 @@ public class Player extends Subject {
             lastCheckpointNumber++;
         }
     }
+
+    /**
+     *
+     * @return returns the collected checkpoints and sends them to Board so the player can see their progress.
+     */
     public int getCollectedCheckpoints() {
         return lastCheckpointNumber;
     }

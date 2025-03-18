@@ -194,10 +194,6 @@ public class Board extends Subject {
      */
     public int getMoves() { return moves; }
 
-    public void setMoves(int moves) {
-        this.moves = moves;
-        notifyChange();
-    }
     /**
      * Increments the move count by one and notifies of changes.
      */
@@ -205,11 +201,7 @@ public class Board extends Subject {
         moves++;
         notifyChange();
     }
-
-    public void decrementMoves() {
-        moves--;
-        notifyChange();
-    }
+    
     /**
      * Gets the current step number.
      *
