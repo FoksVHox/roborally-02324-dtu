@@ -37,9 +37,6 @@ public class GameController {
 
     static public Board board = null;
 
-    //temp fix for LoR
-    private boolean waitingForLoR = false;
-
     public GameController(@NotNull Board board) {
         this.board = board;
     }
@@ -165,11 +162,8 @@ public class GameController {
     // XXX V2
     private void continuePrograms() {
         do {
-            //Temp fix for LoR
-            if (waitingForLoR == false) return;
             executeNextStep();
         } while (board.getPhase() == Phase.ACTIVATION && !board.isStepMode());
-
     }
 
     // XXX V2
@@ -249,7 +243,6 @@ public class GameController {
             switch (command) {
                 case LoR:
                     board.setPhase(Phase.PLAYER_INTERACTION);
-                    waitingForLoR = true;
                     break;
                 case FORWARD:
                     this.moveForward(player);
@@ -325,15 +318,15 @@ public class GameController {
 
     }
 
-
     public void lor(@NotNull Player player, String direction) {
         if (direction.equals("left")) {
             turnLeft(player);
         } else if (direction.equals("right")) {
             turnRight(player);
         }
-        waitingForLoR = false;
+
         board.setPhase(Phase.ACTIVATION);
+
         continuePrograms();
 
         // tunr back to actiom mode
